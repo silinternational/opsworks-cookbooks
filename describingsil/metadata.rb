@@ -8,8 +8,8 @@ recipe "describingsil::default", "Main application configuration and core depend
 recipe "describingsil::development", "Additional setup tasks for development environment"
 
 depends "apache2"
-depends "silphp"
-depends "silapache2"
+depends "php"
+depends "apache2"
 depends "simplesamlphp"
 depends "mysql-chef_gem"
 depends "database"
