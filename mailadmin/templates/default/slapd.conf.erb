@@ -1,0 +1,168 @@
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable.
+##
+include     /etc/openldap/schema/core.schema
+include     /etc/openldap/schema/cosine.schema
+include     /etc/openldap/schema/inetorgperson.schema
+include     /etc/openldap/schema/nis.schema
+include     /etc/openldap/schema/ldaproute.schema
+include     /etc/openldap/schema/gisPerson.schema
+include     /etc/openldap/schema/gisGroup.schema
+include     /etc/openldap/schema/ppolicy.schema
+
+
+# Allow LDAPv2 client connections.  This is NOT the default.
+allow bind_v2
+
+# take limits off what can be shown in ldapsearch by non master user...
+sizelimit unlimited
+
+pidfile     /var/run/openldap/slapd.pid
+argsfile    /var/run/openldap/slapd.args
+
+
+# The next three lines allow use of TLS for encrypting connections using a
+# dummy test certificate which you can generate by changing to
+# /etc/pki/tls/certs, running "make slapd.pem", and fixing permissions on
+# slapd.pem so that the ldap user or group can read it.  Your client software
+# may balk at self-signed certificates, however.
+# TLSCACertificateFile /etc/pki/tls/certs/ca-bundle.crt
+# TLSCertificateFile /etc/pki/tls/certs/slapd.pem
+# TLSCertificateKeyFile /etc/pki/tls/certs/slapd.pem
+#TLSCACertificateFile /etc/mail/certs/WSFO_SHA256_Root_Certificate_Authority.crt
+#TLSCertificateFile /etc/pki/tls/certs/slapd.crt
+#TLSCertificateKeyFile /etc/pki/tls/private/slapd.key
+TLSVerifyClient never
+
+# Sample access control policy:
+#   Root DSE: allow anyone to read it
+#   Subschema (sub)entry DSE: allow anyone to read it
+#   Other DSEs:
+#       Allow self write access
+#       Allow authenticated users read access
+#       Allow anonymous users to authenticate
+#   Directives needed to implement policy:
+# access to dn.base="" by * read
+# access to dn.base="cn=Subschema" by * read
+# access to *
+#   by self write
+#   by users read
+#   by anonymous auth
+#
+# if no access controls are present, the default policy
+# allows anyone and everyone to read anything but restricts
+# updates to rootdn.  (e.g., "access to * by * read")
+#
+# rootdn can always read and write EVERYTHING!
+access to attrs=userPassword
+        by dn="cn=Manager,o=wsfo" write
+        by dn="cn=sysadmin,dc=insitehome,dc=org" write
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" write
+        by dn="uid=php_process,ou=process,o=wsfo" write
+        by anonymous auth
+
+access to filter=(|(Public=secure)(Public=no)(Public=ministry)(Public=mk)(Public=partner))
+        by dn="cn=Manager,o=wsfo" write
+        by dn="uid=php_process,ou=process,o=wsfo" write
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" write
+        by anonymous auth
+
+access to attrs=Dominodn,DominoUid,l,mailAltAddress,mailOwner,mailServer,uniqueMember
+        by dn="cn=Manager,o=wsfo" write
+        by dn="uid=php_process,ou=process,o=wsfo" write
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" write
+        by anonymous auth
+
+access to attrs=gisEisPersonId,mailRoutingAddress,mailSystem
+        by dn="cn=Manager,o=wsfo" write
+        by dn="uid=php_process,ou=process,o=wsfo" write
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" write
+        by anonymous auth
+
+access to *
+        by dn="cn=Manager,o=wsfo" write
+        by dn="uid=php_process,ou=process,o=wsfo" write
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" write
+        by anonymous auth
+
+access to dn.base="dc=insitehome,dc=org"
+        by dn="cn=Manager,dc=insitehome,dc=org" manage
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" read
+        by * none
+        by self none
+        by anonymous auth
+        by * none
+
+access to dn.subtree="dc=insitehome,dc=org"
+        by dn="cn=Manager,dc=insitehome,dc=org" manage
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" read
+        by * read
+        by self read
+        by anonymous auth
+        by * none
+
+access to dn.subtree="ou=gis_affiliated_person,dc=insitehome,dc=org"
+        by dn="cn=Manager,dc=insitehome,dc=org" manage
+        by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" read
+        by * read
+        by self read
+        by anonymous auth
+        by * none
+
+access to * by dn="cn=Manager,dc=insitehome,dc=org" manage
+access to * by dn="cn=ldap_access,ou=users,dc=insitehome,dc=org" read
+access to * by users read
+
+#######################################################################
+# ldbm and/or bdb database definitions
+#######################################################################
+
+# Database definition for master-ldap
+database bdb
+suffix   "o=wsfo"
+rootdn "cn=Manager,o=wsfo"
+# password = password
+rootpw {SSHA}9CMHw16GUOprOuz6ecws9NB7UTA2E8TB
+directory /var/db/openldap/master-ldap
+cachesize 10000
+checkpoint 128 15
+dbnosync
+dirtyread
+searchstack 8
+lastmod     on
+
+# Indices to maintain for this database
+# Thu Feb 17 09:32:38 EST 2011
+# modified by snk to fix indexing problems
+index objectClass                               eq,pres
+index ou,cn,mail,surname,givenname              eq,pres,sub
+index mailAltAddress,mailroutingaddress,uid     eq,sub
+index entryUUID                                 eq
+index entryCSN                                  eq
+index uniqueMember                              eq
+index gisEisPersonId                            eq
+index modifyTimestamp                           eq
+
+idletimeout     90
+
+# Database definition for rep-ldap
+database bdb
+suffix   "dc=insitehome,dc=org"
+rootdn   "cn=sysadmin,dc=insitehome,dc=org"
+# password = password
+rootpw {SSHA}9CMHw16GUOprOuz6ecws9NB7UTA2E8TB
+directory /var/db/openldap/rep-ldap
+index objectClass                       eq,pres
+index cn,displayName,givenName,sn,mail  eq,sub
+index entryUUID             eq
+index uniqueMember          eq
+cachesize 10000
+checkpoint 128 15
+dbnosync
+dirtyread
+searchstack 8
+
+moduleload /usr/lib64/openldap/ppolicy.la
+overlay ppolicy
+ppolicy_default "cn=default,ou=policies,dc=insitehome,dc=org"
+ppolicy_use_lockout

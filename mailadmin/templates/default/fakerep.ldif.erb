@@ -1,0 +1,32 @@
+dn: dc=insitehome,dc=org
+dc: insitehome
+objectClass: organization
+objectClass: dcObject
+o: Insite
+
+dn: ou=users,dc=insitehome,dc=org
+ou: users
+objectClass: organizationalUnit
+
+dn: ou=groups,dc=insitehome,dc=org
+ou: groups
+objectClass: organizationalUnit
+
+dn: ou=policies,dc=insitehome,dc=org
+ou: policies
+objectClass: organizationalUnit
+objectClass: top
+
+dn: cn=LDAP_ACCESS,ou=users,dc=insitehome,dc=org
+cn: LDAP_ACCESS
+displayName: Ldap Access
+title: LDAP_ACCESS account for dev
+givenName: LDAP
+mail: none@example.com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+sn: Access
+uid: LDAP_ACCESS
+userPassword: ldap_access

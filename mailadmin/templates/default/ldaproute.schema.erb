@@ -1,0 +1,165 @@
+# Assorted definitions from several sources, including
+# ''works in progress''.  Use with extreme care.
+
+#
+# draft-lachman-laser-ldap-mail-routing-01.txt
+#       This I-D has expired.
+#
+
+# ldaproute version 1.20.2002
+# newly-assigned IANA numbers incorporated 09-12-2001
+
+# March 1, 2001, cts
+# The 'mailAltAddress' attribute is a multi-value attribute meant to contain
+# valid alternate mail addresses used in routing at the mail gateway.
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.1 
+	NAME 'mailAltAddress' 
+	DESC 'RFC822 email address of this recipient' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+
+# March 1, 2001, cts
+# The 'mailServer' attribute is used to represent the 
+# name of the mail server that the mail account
+# is on. For ccMail it is the name of the post office. For Notes
+# it is the name of the Domino Server. For JARMail it is the name
+# of the JARMail or Fieldmail domain. For Other mail it can be
+# used for the domain name of the other system
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.2 
+	NAME 'mailServer' 
+	DESC 'fully-qualified hostname of the MTA that is the final SMTP destination of messages to this recipient'
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# March 1, 2001, cts
+# The 'mailSystem' attribute is to contain the type of mail system a person is on.
+# (e.g., Notes, ccMail, JARMail, etc.)
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.3 
+	NAME 'mailSystem' 
+	DESC 'the type of internal mail system that the recipient mail account is on' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# March 1, 2001, cts
+# The 'mailOwner' attribute is to contain
+# the owner of an entry (mainly non-internal mail system entries).
+# Its purpose is to aid in deciding what to do with the entry at 
+# a future time (who should be contacted, etc.)
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.4 
+	NAME 'mailOwner' 
+	DESC 'the person responsible for the entry' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# June, 2001, cts
+# The 'Public' attribute is to be used to determine the scope of
+# the entry for distribution purposes. We are currently using the
+# following values:
+# Public: wsfo	(the normal value, for distribution to corp. directories only)
+# Public: no	(a private entry, not to be distributed or sent to field servers)
+# Public: yes	(a potentially public entry, OK for distribution outside of org)
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.5 
+	NAME 'Public' 
+	DESC 'Directory entry viewable in address books?' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{10} SINGLE-VALUE )
+
+
+# June, 2001, cts
+# Domino specific attributes to be used in the Master LDAP
+
+# The 'DominoUid' attribute is to contain the Domino "shortname" field
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.100 
+	NAME 'DominoUid' 
+	DESC 'Domino shortname field' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# The 'DominoModdate' attribute is to contain the Zulu date that the
+# entry was modified by a Notes administrator. It is used in determining
+# whether a recent update has occurred.
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.101 
+	NAME 'DominoModdate' 
+	DESC 'Domino moddate field (reilly), timestamp of last update' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# The 'Dominodn' attribute is to contain the domino distinguished name value
+
+attributetype ( 1.3.6.1.4.1.9933.1.1.1.2.1.102 
+	NAME 'Dominodn' 
+	DESC 'Domino dn field' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+
+
+# from other published works
+
+# from draft-lachman-laser-ldap-mail-routing-02.txt
+attributetype ( 2.16.840.1.113730.3.1.18 
+	NAME 'mailHost' 
+	DESC 'fully-qualified hostname of the MTA that is the final SMTP destination of messages to this recipient' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# from draft-lachman-laser-ldap-mail-routing-02.txt
+attributetype ( 2.16.840.1.113730.3.1.47 
+	NAME 'mailRoutingAddress' 
+	DESC 'RFC822 address to use when routing messages to the SMTP MTA of this recipient' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+attributetype ( 2.16.840.1.113730.3.1.13 
+	NAME 'mailLocalAddress' 
+	DESC 'RFC822 address of this recipient' 
+	EQUALITY caseIgnoreIA5Match 
+	SUBSTR caseIgnoreIA5SubstringsMatch 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} SINGLE-VALUE )
+
+# objectclasses
+
+# The 'mailRecipientPerson' objectclass seems to have been deprecated in 
+# the new draft-lachman-laser-ldap-mail-routing-02.txt
+
+objectclass ( 1.3.6.1.4.1.9933.1.1.1.2.2.1 
+	NAME 'mailRecipientPerson' 
+	DESC 'Internet local mail recipient' 
+	SUP top AUXILIARY 
+	MAY     ( mailAltAddress $
+		 mailLocalAddress $
+		 mailSystem $
+		 mailServer $
+		 mailRoutingAddress $
+		 mailOwner $
+		 DominoUid $
+		 DominoModdate $
+		 Dominodn $
+		 Public) ) 
+
+# from draft-lachman-laser-ldap-mail-routing-02.txt, assigned one of our IANA numbers for now
+objectclass ( 1.3.6.1.4.1.9933.1.1.1.2.2.2 
+	NAME 'inetLocalMailRecipient' 
+	DESC 'Internet local mail recipient' 
+	SUP top AUXILIARY 
+	MAY     ( mailLocalAddress $
+		 mailHost $
+		 mailRoutingAddress) )
+

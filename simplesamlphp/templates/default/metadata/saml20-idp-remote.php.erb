@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * SAML 2.0 remote IdP metadata for simpleSAMLphp.
+ *
+ * Remember to remove the IdPs you don't use from this file.
+ *
+ * See: https://rnd.feide.no/content/idp-remote-metadata-reference
+ */
+$metadata['https://openidp.feide.no'] = array(
+    'SingleSignOnService'  => 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
+    'SingleLogoutService'  => 'https://openidp.feide.no/simplesaml/saml2/idp/SingleLogoutService.php',
+    'certFingerprint'      => 'c9ed4dfb07caf13fc21e0fec1572047eb8a7a4cb',
+);
+$metadata['<%= @data[:idp] %>'] = array(
+    'metadata-set' => 'saml20-idp-remote',
+    'entityid' => '<%= @data[:idp] %>',
+    'SingleSignOnService' => array(
+        0 => array(
+            'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+            'Location' => '<%= @data[:SingleSignOnService] %>',
+        ),
+    ),
+    'SingleLogoutService' => '<%= @data[:SingleLogoutService] %>',
+    'certData' => '<%= @data[:certData] %>',
+    'NameIDFormat' => 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+    'OrganizationName' => '<%= @data[:orgName] %>',
+    'OrganizationDisplayName' => '<%= @data[:orgName] %>',
+    'OrganizationURL' => '<%= @data[:orgUrl] %>',
+    'authproc' => array(
+        50 => array(
+            'class' => 'core:AttributeMap',
+            'oid2name',
+        ),
+    ),
+);

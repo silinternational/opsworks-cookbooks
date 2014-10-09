@@ -1,0 +1,44 @@
+# extended LDIF
+#
+# LDAPv3
+# base <o=wsfo> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# wsfo
+dn: o=wsfo
+objectClass: top
+objectClass: organization
+o: wsfo
+
+# Groups, wsfo
+dn: ou=Groups,o=wsfo
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+
+# People, wsfo
+dn: ou=People,o=wsfo
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+
+# Process, wsfo
+dn: ou=Process,o=wsfo
+objectClass: top
+objectClass: organizationalUnit
+ou: Process
+
+# php_process, process, wsfo
+dn: uid=php_process,ou=process,o=wsfo
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+cn: php process
+sn: process
+ou: process
+uid: php_process
+userPassword: php_process
+

@@ -1,24 +1,20 @@
-node[:deploy].each do |application, deploy|
-  if deploy[:application_type] != 'php'
-    Chef::Log.debug("Skipping php::configure application #{application} as it is not an PHP app")
-    next
+node['deploy'].each do |application, deploy|
+
+  if (deploy['config_files'] && deploy['config_files'].is_a?(::Hash))
+    deploy['config_files'].each do |file, data|
+      template "config file #{data['filename']}" do
+        source 'array.php.erb'
+        path "#{deploy['deploy_to']}/#{deploy['config_path']}/#{data['filename']}"
+        mode '0664'
+        owner deploy['user']
+        group deploy['group']
+        variables(
+          :data => Silphp::Helper.hash_to_array(data['content']),
+        )
+      end
+
+    end
+    
   end
 
-  # write out opsworks.php
-  template "#{deploy[:deploy_to]}/shared/config/opsworks.php" do
-    cookbook 'php'
-    source 'opsworks.php.erb'
-    mode '0660'
-    owner deploy[:user]
-    group deploy[:group]
-    variables(
-      :database => deploy[:database],
-      :memcached => deploy[:memcached],
-      :layers => node[:opsworks][:layers],
-      :stack_name => node[:opsworks][:stack][:name]
-    )
-    only_if do
-      File.exists?("#{deploy[:deploy_to]}/shared/config")
-    end
-  end
 end
