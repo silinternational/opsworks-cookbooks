@@ -1,9 +1,9 @@
 #
-# Author::  Christo De Lange (<opscode@dldinternet.com>)
+# Author:: Seth Chisamore <schisamo@opscode.com>
 # Cookbook Name:: php
-# Recipe:: ini
+# Resource:: pear_package
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@
 # limitations under the License.
 #
 
-template "#{node['php']['conf_dir']}/php.ini" do
-	source node['php']['ini']['template']
-	cookbook node['php']['ini']['cookbook']
-	unless platform?('windows')
-		owner 'root'
-		group 'root'
-		mode '0644'
-	end
-	variables(:directives => node['php']['directives'])
-end
+default_action :install
+actions :install, :upgrade, :remove, :purge
+
+attribute :package_name, :kind_of => String, :name_attribute => true
+attribute :version, :default => nil
+attribute :channel, :kind_of => String
+attribute :options, :kind_of => String
+attribute :directives, :kind_of => Hash, :default => {}
+attribute :zend_extensions, :kind_of => Array, :default => []
+attribute :preferred_state, :default => 'stable'

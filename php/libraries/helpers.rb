@@ -1,9 +1,9 @@
 #
-# Author::  Christo De Lange (<opscode@dldinternet.com>)
+# Author::  Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: ini
+# Libraries:: helpers
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,6 @@
 # limitations under the License.
 #
 
-template "#{node['php']['conf_dir']}/php.ini" do
-	source node['php']['ini']['template']
-	cookbook node['php']['ini']['cookbook']
-	unless platform?('windows')
-		owner 'root'
-		group 'root'
-		mode '0644'
-	end
-	variables(:directives => node['php']['directives'])
+def el5_range
+  (0..99).to_a.map { |i| "5.#{i}" }
 end

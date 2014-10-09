@@ -1,9 +1,10 @@
 #
-# Author::  Christo De Lange (<opscode@dldinternet.com>)
+# Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: ini
+# Recipe:: module_memcache
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +19,19 @@
 # limitations under the License.
 #
 
-template "#{node['php']['conf_dir']}/php.ini" do
-	source node['php']['ini']['template']
-	cookbook node['php']['ini']['cookbook']
-	unless platform?('windows')
-		owner 'root'
-		group 'root'
-		mode '0644'
-	end
-	variables(:directives => node['php']['directives'])
+case node['platform_family']
+when 'rhel', 'fedora'
+  %w{ zlib-devel }.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+  php_pear 'memcache' do
+    action :install
+    # directives(:shm_size => "128M", :enable_cli => 0)
+  end
+when 'debian'
+  package 'php5-memcache' do
+    action :install
+  end
 end
