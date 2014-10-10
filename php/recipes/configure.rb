@@ -6,7 +6,7 @@ node['deploy'].each do |application, deploy|
         source 'array.php.erb'
         path "#{deploy['deploy_to']}/#{deploy['config_path']}/#{data['filename']}"
         mode '0664'
-        owner deploy['user']
+        owner deploy['owner']
         group deploy['group']
         variables(
           :data => Silphp::Helper.hash_to_array(data['content']),
