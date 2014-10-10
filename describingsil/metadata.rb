@@ -9,7 +9,4 @@ recipe "describingsil::development", "Additional setup tasks for development env
 
 depends "apache2"
 depends "php"
-depends "apache2"
 depends "simplesamlphp"
-depends "mysql-chef_gem"
-depends "database"
