@@ -19,6 +19,7 @@
 
 define :apache_conf do
   template "#{node[:apache][:dir]}/mods-available/#{params[:name]}.conf" do
+    cookbook params['cookbook'] || "apache2"
     source "mods/#{params[:name]}.conf.erb"
     notifies :restart, "service[apache2]"
   end

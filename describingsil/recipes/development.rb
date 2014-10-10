@@ -1,6 +1,6 @@
 # Additional setup tasks for development environment
 
-include_recipe "database::mysql"
+#include_recipe "database::mysql"
 
 # DB Connection info
 mysql_connection_info = {
@@ -11,22 +11,39 @@ mysql_connection_info = {
 
 # Create databases
 node['mysql']['dbs'].each do |dbname|
-    mysql_database dbname do
-      connection mysql_connection_info
-      action :create
+    # Changed to manually create databases due to conflict for database cookbook 
+    # and ospworks cookbooks
+    execute "create database #{dbname}" do
+      command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e 'create database if not exists #{dbname};'"
     end
+
+    #mysql_database dbname do
+    #  connection mysql_connection_info
+    #  action :create
+    #end
 end
 
 # Create database users
 node['mysql']['users'].each do |dbusername, user|
-    mysql_database_user dbusername do
-        username dbusername
-        password user['password']
-        database_name user['database']
-        privileges [:all]
-        connection mysql_connection_info
-        action [:create,:grant]
+    # Changed to manually create databases due to conflict for database cookbook 
+    # and ospworks cookbooks
+    execute "create user #{dbusername}" do
+      command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e \"grant all on #{user['database']}.* to \'#{dbusername}\'@\'localhost\' identified by \'#{user['password']}\';\""
     end
+
+    #mysql_database_user dbusername do
+    #    username dbusername
+    #    password user['password']
+    #     database_name user['database']
+    #     privileges [:all]
+    #     connection mysql_connection_info
+    #     action [:create,:grant]
+    # end
+end
+
+# Flush mysql privileges
+execute "Flush mysql privileges" do
+  command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e 'flush privileges;'"
 end
 
 # Disable EnableSendFile in apache, needed when using vagrant on windows
@@ -40,5 +57,5 @@ end
 # end
 apache_conf "EnableSendFile" do
     enable true
-    cookbook "silapache2"
+    cookbook "apache2"
 end
