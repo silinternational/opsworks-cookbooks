@@ -13,12 +13,12 @@ end
 deploy = node['deploy']['desc_sil_app']
 
 # Update folder permissions
-directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/protected/runtime" do
+directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/protected/runtime" do
     owner "apache"
     group "apache"
     mode "0775"
 end
-directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/public/assets" do
+directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/public/assets" do
     owner "apache"
     group "apache"
     mode "0775"
