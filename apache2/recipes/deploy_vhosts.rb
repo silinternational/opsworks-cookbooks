@@ -11,7 +11,7 @@ node['deploy'].each do |appname, deploy|
             mode "0644"
             action :create
             content deploy['vhost']['ssl']['cert_content']
-            only_if { deploy['vhost']['ssl'] && deploy['vhost']['ssl']['enabled'] && !File.exists?("#{deploy['vhost']['ssl']['cert_path']}/#{deploy['vhost']['server_name']}.crt") }
+            only_if { deploy['vhost']['ssl']['enabled'] && deploy['vhost']['ssl']['cert_content'] }
         end
         file "#{deploy['vhost']['ssl']['key_path']}/#{deploy['vhost']['server_name']}.key" do
             owner "root"
@@ -19,7 +19,7 @@ node['deploy'].each do |appname, deploy|
             mode "0600"
             action :create
             content deploy['vhost']['ssl']['key_content']
-            only_if { deploy['vhost']['ssl'] && deploy['vhost']['ssl']['enabled'] && !File.exists?("#{deploy['vhost']['ssl']['key_path']}/#{deploy['vhost']['server_name']}.key") }
+            only_if { deploy['vhost']['ssl']['enabled'] && deploy['vhost']['ssl']['key_content'] }
         end
         file "#{deploy['vhost']['ssl']['intermediate_cert_file']}" do
             owner "root"
@@ -27,7 +27,7 @@ node['deploy'].each do |appname, deploy|
             mode "0644"
             action :create
             content deploy['vhost']['ssl']['intermediate_cert_content']
-            only_if { deploy['vhost']['ssl'] && deploy['vhost']['ssl']['enabled'] && deploy['vhost']['ssl']['intermediate_cert_file'] && !File.exists?(deploy['vhost']['ssl']['intermediate_cert_file']) }
+            only_if { deploy['vhost']['ssl']['enabled'] && deploy['vhost']['ssl']['intermediate_cert_content'] }
         end
     end
 
@@ -35,7 +35,7 @@ node['deploy'].each do |appname, deploy|
     web_app appname do
         server_name deploy['vhost']['server_name']
         server_aliases deploy['vhost']['server_aliases']
-        docroot deploy['vhost']['docroot']
+        docroot "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['vhost']['docroot']}"
         allow_override deploy['vhost']['allow_override']
         server_port deploy['vhost']['port']
         ssl_config deploy['vhost']['ssl']
