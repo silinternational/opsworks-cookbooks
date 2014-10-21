@@ -17,11 +17,13 @@ directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/protect
     owner "apache"
     group "apache"
     mode "0775"
+    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/protected") }
 end
 directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/public/assets" do
     owner "apache"
     group "apache"
     mode "0775"
+    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/public") }
 end
 
 # Make sure yiic script is executable
@@ -29,11 +31,13 @@ file "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yii
     owner "root"
     group "root"
     mode "0755"
+    only_if { File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yiic") }
 end
 
 # Create simplesaml symlink if needed
 link "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/public/simplesaml" do
     to "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/simplesamlphp/www/"
+    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/simplesamlphp/www/") }
 end
 
 
