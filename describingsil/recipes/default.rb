@@ -36,8 +36,8 @@ end
 
 # Create simplesaml symlink if needed
 link "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/public/simplesaml" do
-    to "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/simplesamlphp/www/"
-    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/simplesamlphp/www/") }
+    to "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/simplesamlphp/www/"
+    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/simplesamlphp/www/") }
 end
 
 
