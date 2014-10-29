@@ -1,20 +1,20 @@
 node[:deploy].each do |application, deploy|
-	if deploy[:simplesamlphp]
-		file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.crt" do
-			content deploy[:simplesamlphp][:crt]
-			owner deploy[:user]
-    		group deploy[:group]
-			mode 0664
-		end
+    if deploy[:simplesamlphp]
+        file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.crt" do
+            content deploy[:simplesamlphp][:crt]
+            owner deploy[:user]
+            group deploy[:group]
+            mode 0664
+        end
 
-		file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.pem" do
-			content deploy[:simplesamlphp][:pem]
-			owner deploy[:user]
-    		group deploy[:group]
-			mode 0664
-		end
+        file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.pem" do
+            content deploy[:simplesamlphp][:pem]
+            owner deploy[:user]
+            group deploy[:group]
+            mode 0664
+        end
 
-		# write out config/authsources.php
+        # write out config/authsources.php
         template "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/config/authsources.php" do
             source 'config/authsources.php.erb'
             mode '0664'
@@ -55,5 +55,5 @@ node[:deploy].each do |application, deploy|
               File.exists?("#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/metadata")
             end
         end
-	end
+    end
 end
