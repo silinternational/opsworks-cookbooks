@@ -48,6 +48,19 @@
   RewriteLog <%= node['apache']['log_dir'] %>/<%= @application_name %>-rewrite.log
   RewriteLogLevel 0
 
+  <% if @params[:path_aliases] -%>
+    <% @params[:path_aliases].each do |path_alias| -%>
+  Alias <%= path_alias['url_path'] -%> <%= path_alias['dir_path'] -%>
+
+  <Directory <%= path_alias['dir_path'] -%>>
+    Order allow,deny
+    Allow from all
+  </Directory>
+    <% end -%>
+  <% end -%>
+
+  <%= @params[:extra_config] || "" -%>
+
 </VirtualHost>
 <% if @params[:ssl_config] and @params[:ssl_config][:enabled] and @params[:ssl_config][:redirect_http] -%>
 <VirtualHost *:80>

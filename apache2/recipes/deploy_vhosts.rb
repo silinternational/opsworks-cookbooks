@@ -31,6 +31,21 @@ node['deploy'].each do |appname, deploy|
         end
     end
 
+    if deploy['vhost']['path_aliases']
+        vhost_path_aliases = Array.new
+        deploy['vhost']['path_aliases'].each do |path_alias|
+            if path_alias['dir_path'].start_with?("/") 
+                vhost_path_aliases << { "url_path" => path_alias['url_path'], "dir_path" => path_alias['dir_path'] }
+            else
+                dir_path = "#{deploy['deploy_to']}/#{deploy['aws_extra_path']}/#{path_alias['dir_path']}"
+                dir_path = dir_path.gsub(/\/\//, '/')
+                vhost_path_aliases << { "url_path" => path_alias['url_path'], "dir_path" => dir_path}
+            end
+        end
+    else
+        vhost_path_aliases = nil
+    end
+
     # Create vhost 
     web_app appname do
         server_name deploy['vhost']['server_name']
@@ -39,5 +54,6 @@ node['deploy'].each do |appname, deploy|
         allow_override deploy['vhost']['allow_override']
         server_port deploy['vhost']['port']
         ssl_config deploy['vhost']['ssl']
+        path_aliases vhost_path_aliases
     end
 end
