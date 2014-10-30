@@ -32,5 +32,10 @@ $metadata['<%= @data[:idp] %>'] = array(
             'class' => 'core:AttributeMap',
             'oid2name',
         ),
+        <% if @data[:authprocs] -%>
+            <% for @authProc in @data[:authprocs] -%>
+                <%= @authProc[:priority] %> => <%= @authProc[:rawContent] %>
+            <% end -%>
+        <% end -%>
     ),
 );
