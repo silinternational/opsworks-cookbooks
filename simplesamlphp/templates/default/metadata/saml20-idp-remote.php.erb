@@ -17,8 +17,12 @@ $metadata['<%= @data[:idp] %>'] = array(
         ),
     ),
     'SingleLogoutService' => '<%= @data[:SingleLogoutService] %>',
-    'certData' => <%= (@data[:certData] ? "'" + @data[:certData] + "'" : "null") %>,
-    'certFingerprint' => <%= (@data[:certFingerprint] ? "'" + @data[:certFingerprint] + "'" : "null") %>,
+    <% if @data[:certData] %>
+    'certData' => '<%= @data[:certData] %>',
+    <% end %>
+    <% if @data[:certFingerprint] %>
+    'certFingerprint' => '<%= @data[:certFingerprint] %>',
+    <% end %>
     'NameIDFormat' => 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
     'OrganizationName' => '<%= @data[:orgName] %>',
     'OrganizationDisplayName' => '<%= @data[:orgName] %>',
@@ -28,5 +32,10 @@ $metadata['<%= @data[:idp] %>'] = array(
             'class' => 'core:AttributeMap',
             'oid2name',
         ),
+        <% if @data[:authprocs] -%>
+            <% for @authProc in @data[:authprocs] -%>
+                <%= @authProc[:priority] %> => <%= @authProc[:rawContent] %>
+            <% end -%>
+        <% end -%>
     ),
 );
