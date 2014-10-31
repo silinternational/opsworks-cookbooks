@@ -1,7 +1,12 @@
 # Recipe installs and configures dependencies for Addressbook
 
 # Required packages
-packages = ["git", "httpd", "php", "php-mcrypt", "php-xml", "php-mbstring", "php-pdo"]
+case node[:platform_family]
+  when 'rhel'
+    packages = ["git", "httpd", "php", "php-mcrypt", "php-xml", "php-mbstring", "php-pdo"]
+  when 'debian'
+    packages = ["git", "apache2", "php5", "php5-mcrypt", "php5-sqlite"]
+  end
 
 packages.each do |name|
     package name do

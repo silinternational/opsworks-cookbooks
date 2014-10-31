@@ -1,7 +1,12 @@
 # Recipe installs and configures dependencies for describingsil
 
 # Required packages
-packages = ["git", "httpd", "php", "php-mcrypt", "php-xml", "php-mbstring", "php-pdo", "php-mysql"]
+case node[:platform_family]
+  when 'rhel'
+    packages = ["git", "httpd", "php", "php-mcrypt", "php-xml", "php-mbstring", "php-pdo", "php-mysql"]
+  when 'debian'
+    packages = ["git", "apache2", "php5", "php5-mcrypt", "php5-mysql"]
+  end
 
 packages.each do |name|
     package name do
