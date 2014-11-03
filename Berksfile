@@ -1,7 +1,8 @@
 source "https://api.berkshelf.com"
 
 def sil_cookbook(name, version = '>= 0.0.0', options = {})
-  cookbook name, version, github: "silinternational/opsworks-cookbooks", rel: name, branch: "release-chef-11.10"
+  cookbook name, version, path: "./#{name}"
+  #cookbook name, version, github: "silinternational/opsworks-cookbooks", rel: name, branch: "release-chef-11.10"
 end
 
 cookbook "yum",             github: "opscode-cookbooks/yum"
