@@ -37,3 +37,15 @@ apache_conf "EnableSendFile" do
     enable true
     cookbook "apache2"
 end
+
+# Also run migrations on the test database (if applicable).
+if node['deploy']['desc_sil_app']['config_files']['local']['content']['components']['testDb']
+    deploy = node['deploy']['desc_sil_app']
+    if File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yiic")
+        path = "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}"
+        execute "Running yii migrations on testDb in #{path}" do
+            user "root"
+            command "#{path}/yiic migrate --interactive=0 --connectionID=testDb"
+        end
+    end
+end
