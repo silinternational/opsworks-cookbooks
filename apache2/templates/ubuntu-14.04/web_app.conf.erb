@@ -46,8 +46,6 @@
   <% end -%>
 
   RewriteEngine On
-  RewriteLog <%= node['apache']['log_dir'] %>/<%= @application_name %>-rewrite.log
-  RewriteLogLevel 0
 
   <% if @params[:path_aliases] -%>
     <% @params[:path_aliases].each do |path_alias| -%>

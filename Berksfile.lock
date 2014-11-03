@@ -150,7 +150,7 @@ GRAPH
   ssh_users (1.0.0)
     opsworks_initial_setup (>= 0.0.0)
   unicorn (2.0.0)
-  windows (1.34.6)
+  windows (1.34.8)
     chef_handler (>= 0.0.0)
   xml (1.2.6)
     build-essential (>= 0.0.0)
