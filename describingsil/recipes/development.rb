@@ -1,5 +1,23 @@
 # Additional setup tasks for development environment
 
+# Additional packages
+case node[:platform_family]
+  when 'rhel'
+    packages = ["mysql-client", "mysql-server"]
+    apache_owner = "apache"
+    apache_group = "apache"
+  when 'debian'
+    packages = ["mysql-client", "mysql-server"]
+    apache_owner = "www-data"
+    apache_group = "www-data"
+  end
+
+packages.each do |name|
+    package name do
+        action :install
+    end
+end
+
 # DB Connection info
 mysql_connection_info = {
   :host     => 'localhost',
