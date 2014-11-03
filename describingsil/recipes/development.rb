@@ -20,8 +20,10 @@ end
 node['mysql']['users'].each do |dbusername, user|
     # Changed to manually create databases due to conflict for database cookbook 
     # and ospworks cookbooks
-    execute "create user #{dbusername}" do
-      command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e \"grant all on #{user['database']}.* to \'#{dbusername}\'@\'localhost\' identified by \'#{user['password']}\';\""
+    user['databases'].each do |dbname|
+        execute "create user #{dbusername} on #{dbname}" do
+            command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e \"grant all on #{dbname}.* to \'#{dbusername}\'@\'localhost\' identified by \'#{user['password']}\';\""
+        end
     end
 end
 
@@ -34,4 +36,16 @@ end
 apache_conf "EnableSendFile" do
     enable true
     cookbook "apache2"
+end
+
+# Also run migrations on the test database (if applicable).
+if node['deploy']['desc_sil_app']['config_files']['local']['content']['components']['testDb']
+    deploy = node['deploy']['desc_sil_app']
+    if File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yiic")
+        path = "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}"
+        execute "Running yii migrations on testDb in #{path}" do
+            user "root"
+            command "#{path}/yiic migrate --interactive=0 --connectionID=testDb"
+        end
+    end
 end
