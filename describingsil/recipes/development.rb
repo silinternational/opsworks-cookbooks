@@ -20,8 +20,10 @@ end
 node['mysql']['users'].each do |dbusername, user|
     # Changed to manually create databases due to conflict for database cookbook 
     # and ospworks cookbooks
-    execute "create user #{dbusername}" do
-      command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e \"grant all on #{user['database']}.* to \'#{dbusername}\'@\'localhost\' identified by \'#{user['password']}\';\""
+    user['databases'].each do |dbname|
+        execute "create user #{dbusername} on #{dbname}" do
+            command "mysql -u#{mysql_connection_info[:username]} -p#{mysql_connection_info[:password]} -h#{mysql_connection_info[:host]} -e \"grant all on #{dbname}.* to \'#{dbusername}\'@\'localhost\' identified by \'#{user['password']}\';\""
+        end
     end
 end
 
