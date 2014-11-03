@@ -11,6 +11,7 @@ case node[:platform_family]
 packages.each do |name|
     package name do
         action :install
+        notifies :reload, "service[apache2]", :delayed
     end
 end
 
@@ -28,6 +29,7 @@ case node[:platform_family]
           zend_extensions ['xdebug.so']
           options "--ignore-errors"
           action :install
+          notifies :reload, "service[apache2]", :delayed
         end
     when 'debian'
         node['php']['directives'].merge(

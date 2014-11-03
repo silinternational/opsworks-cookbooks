@@ -27,4 +27,5 @@ template "#{node['php']['conf_dir']}/php.ini" do
 		mode '0644'
 	end
 	variables(:directives => node['php']['directives'])
+    notifies :reload, "service[apache2]", :delayed
 end
