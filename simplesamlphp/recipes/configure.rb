@@ -1,17 +1,52 @@
 node[:deploy].each do |application, deploy|
     if deploy[:simplesamlphp]
-        file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.crt" do
-            content deploy[:simplesamlphp][:crt]
-            owner deploy[:owner]
-            group deploy[:group]
-            mode 0664
+        # Figure out AWS credentials if available
+        access_key_id = deploy[:aws][:access_key_id] || node[:aws][:access_key_id] || false
+        secret_access_key = deploy[:aws][:secret_access_key] || node[:aws][:secret_access_key] || false
+        s3_bucket = deploy[:aws][:s3_bucket] || node[:aws][:s3_bucket] || false
+
+        # Create CRT and PEM files from JSON content if available
+        if deploy[:simplesamlphp][:crt]
+            file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.crt" do
+                content deploy[:simplesamlphp][:crt]
+                owner deploy[:owner]
+                group deploy[:group]
+                mode 0664
+            end
+        end
+        if deploy[:simplesamlphp][:pem]
+            file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.pem" do
+                content deploy[:simplesamlphp][:pem]
+                owner deploy[:owner]
+                group deploy[:group]
+                mode 0664
+            end
         end
 
-        file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.pem" do
-            content deploy[:simplesamlphp][:pem]
-            owner deploy[:owner]
-            group deploy[:group]
-            mode 0664
+        # Create CRT and PEM files from S3 if configuration available
+        if deploy[:simplesamlphp][:s3_crt_path] && access_key_id && secret_access_key && s3_bucket
+            s3_file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.crt" do
+                aws_access_key_id access_key_id
+                aws_secret_access_key secret_access_key
+                remote_path deploy[:simplesamlphp][:s3_crt_path]
+                bucket s3_bucket
+                owner deploy[:owner]
+                group deploy[:group]
+                mode 0664
+                action :create
+            end
+        end
+        if deploy[:simplesamlphp][:s3_pem_path] && access_key_id && secret_access_key && s3_bucket
+            s3_file "#{deploy[:deploy_to]}#{deploy['aws_extra_path']}/#{deploy[:simplesamlphp][:path]}/cert/saml.pem" do
+                aws_access_key_id access_key_id
+                aws_secret_access_key secret_access_key
+                remote_path deploy[:simplesamlphp][:s3_pem_path]
+                bucket s3_bucket
+                owner deploy[:owner]
+                group deploy[:group]
+                mode 0664
+                action :create
+            end
         end
 
         # write out config/authsources.php
