@@ -10,6 +10,12 @@ module Silphp
                    "\"#{name}\" => array(\"#{value.join('","')}\"),\n"
                  when nil
                    "\"#{name}\" => null,\n"
+                 when Integer
+                   "\"#{name}\" => #{value},\n"
+                 when TrueClass
+                   "\"#{name}\" => #{value},\n"
+                 when FalseClass
+                   "\"#{name}\" => #{value},\n"
                  else
                    "\"#{name}\" => \"#{value}\",\n"
                  end
