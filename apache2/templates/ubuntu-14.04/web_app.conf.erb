@@ -5,6 +5,12 @@
   <% end -%>
   DocumentRoot <%= @params[:docroot] %>
   RewriteEngine On
+  
+  <% if @params[:env_vars] -%>
+    <% @params[:env_vars].each do |env_var| -%>
+  SetEnv <%= env_var['name'] -%> "<%= env_var['str_value'] -%>"
+    <% end -%>
+  <% end -%>
 
   <Directory <%= @params[:docroot] %>>
     Options <%= [@params[:directory_options] || "FollowSymLinks" ].flatten.join " " %>

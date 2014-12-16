@@ -55,5 +55,6 @@ node['deploy'].each do |appname, deploy|
         server_port deploy['vhost']['port']
         ssl_config deploy['vhost']['ssl']
         path_aliases vhost_path_aliases
+        env_vars deploy['vhost']['env_vars']
     end
 end
