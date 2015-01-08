@@ -17,15 +17,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-template "#{node['php']['conf_dir']}/php.ini" do
-	source node['php']['ini']['template']
-	cookbook node['php']['ini']['cookbook']
-	unless platform?('windows')
-		owner 'root'
-		group 'root'
-		mode '0644'
-	end
-	variables(:directives => node['php']['directives'])
-    notifies :reload, "service[apache2]", :delayed
+if node['php']['conf_dir'].kind_of?(Array)
+    node['php']['conf_dir'].each do |conf_dir|
+        template "#{conf_dir}/php.ini" do
+            source node['php']['ini']['template']
+            cookbook node['php']['ini']['cookbook']
+            unless platform?('windows')
+                owner 'root'
+                group 'root'
+                mode '0644'
+            end
+            variables(:directives => node['php']['directives'])
+            notifies :reload, "service[apache2]", :delayed
+        end
+    end
+else
+    template "#{node['php']['conf_dir']}/php.ini" do
+    	source node['php']['ini']['template']
+    	cookbook node['php']['ini']['cookbook']
+    	unless platform?('windows')
+    		owner 'root'
+    		group 'root'
+    		mode '0644'
+    	end
+    	variables(:directives => node['php']['directives'])
+        notifies :reload, "service[apache2]", :delayed
+    end
 end
