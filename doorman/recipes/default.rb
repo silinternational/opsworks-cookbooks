@@ -21,4 +21,11 @@ end
 # Configure apps
 deploy = node['deploy']['doorman']
 
+case node[:platform_family]
+    when 'debian'
+        execute "enable php5-mcrypt extension" do
+            command "php5enmod mcrypt"
+            notifies :reload, "service[apache2]", :delayed
+        end
+    end
 
