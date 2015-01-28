@@ -16,6 +16,16 @@ define :update_composer, :self_update => true, :as_update => false do
       end
     end
 
+    # Install globally required packages
+    if ( params[:global_require] && params[:global_require].kind_of?(Array) )
+      params[:global_require].each do |pkgname|
+        execute "Installing composer globally required package: #{pkgname}" do
+          user "root"
+          command "cd #{params[:path]} && php composer.phar global require \"#{pkgname}\" "
+        end
+      end
+    end
+
     # Install composer packages
     if params[:as_update]
       method = "update"
