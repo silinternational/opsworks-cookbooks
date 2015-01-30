@@ -70,8 +70,8 @@ end
 
 # Initialize Codeception
 execute "Bootstrap Codeception" do
-  command "cd #{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept bootstrap"
+  command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept bootstrap"
 end 
 execute "Build Codeception" do
-  command "cd #{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
+  command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
 end 
