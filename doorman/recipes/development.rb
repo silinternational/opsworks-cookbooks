@@ -67,3 +67,11 @@ if node['deploy']['doorman']['config_files']['main_local']['content']['component
         end
     end
 end
+
+# Initialize Codeception
+execute "Bootstrap Codeception" do
+  command "cd #{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept bootstrap"
+end 
+execute "Build Codeception" do
+  command "cd #{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
+end 
