@@ -8,6 +8,9 @@ node['deploy'].each do |appname, deploy|
             if deploy['composer']['global_require']
                 global_require deploy['composer']['global_require']
             end
+            if deploy['composer']['github_token']
+                github_token deploy['composer']['github_token']
+            end
             only_if { File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['composer']['dir']}/composer.json") }
         end
     end

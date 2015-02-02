@@ -16,6 +16,14 @@ define :update_composer, :self_update => true, :as_update => false do
       end
     end
 
+    # Set github auth token to prevent hitting api rate limit
+    if params[:github_token]
+      execute "Setting github auth token for composer" do
+        user "root"
+        command "cd #{params[:path]} && php composer.phar config -g github-oauth.github.com #{params[:github_token]}"
+      end
+    end
+
     # Install globally required packages
     if ( params[:global_require] && params[:global_require].kind_of?(Array) )
       params[:global_require].each do |pkgname|
