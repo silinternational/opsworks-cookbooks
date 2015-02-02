@@ -57,13 +57,13 @@ apache_conf "EnableSendFile" do
 end
 
 # Also run migrations on the test database (if applicable).
-if node['deploy']['doorman']['config_files']['main_local']['content']['components']['testDb']
+if node['deploy']['doorman']['config_files']['common_main_local']['content']['components']['testDb']
     deploy = node['deploy']['doorman']
-    if File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yiic")
-        path = "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}"
-        execute "Running yii migrations on testDb in #{path}" do
-            user "root"
-            command "#{path}/yii migrate --interactive=0 --connectionID=testDb"
+    if File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yii")
+        yii_migrate "yii_migrate on testDb" do
+            yii_ver 2
+            dbname "testDb"
+            path "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}"
         end
     end
 end
