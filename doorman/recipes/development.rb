@@ -7,7 +7,7 @@ case node[:platform_family]
     apache_owner = "apache"
     apache_group = "apache"
   when 'debian'
-    packages = ["mysql-client", "mysql-server"]
+    packages = ["mysql-client", "mysql-server", "ruby-dev", "npm"]
     apache_owner = "www-data"
     apache_group = "www-data"
   end
@@ -57,8 +57,8 @@ apache_conf "EnableSendFile" do
 end
 
 # Also run migrations on the test database (if applicable).
-if node['deploy']['doorman']['config_files']['common_main_local']['content']['components']['testDb']
-    deploy = node['deploy']['doorman']
+if node['deploy']['doorman_api']['config_files']['common_main_local']['content']['components']['testDb']
+    deploy = node['deploy']['doorman_api']
     if File.exists?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/#{deploy['yii_dir']}/yii")
         yii_migrate "yii_migrate on testDb" do
             yii_ver 2
@@ -75,3 +75,27 @@ end
 execute "Build Codeception" do
   command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
 end 
+
+# Setup Doorman UI if mounted
+if File.directory?("/var/lib/doorman-ui")
+  link "/usr/bin/node" do
+    to "/usr/bin/nodejs"
+  end
+  execute "Doorman UI: npm install" do
+    command "npm install"
+    user "root"
+    cwd "/var/lib/doorman-ui"
+  end
+  execute "Doorman UI: npm install -g bower grunt-cli" do
+    command "npm install -g bower grunt-cli"
+    user "root"
+    cwd "/var/lib/doorman-ui"
+  end
+  execute "Doorman UI: bower install" do
+    command "bower install --allow-root"
+    cwd "/var/lib/doorman-ui"
+  end
+  link "/var/lib/doorman-ui/app/bower_components" do
+    to "/var/lib/doorman-ui/bower_components/"
+  end
+end

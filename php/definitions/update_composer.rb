@@ -40,9 +40,14 @@ define :update_composer, :self_update => true, :as_update => false do
     else
       method = "install"
     end
+    if params[:include_dev]
+      dev = ""
+    else
+      dev = "--no-dev"
+    end
     execute "Installing composer dependencies in #{params[:path]}" do
       user "root"
-      command "cd #{params[:path]} && php composer.phar #{method}"
+      command "cd #{params[:path]} && php composer.phar #{dev} #{method}"
     end
   end
 end
