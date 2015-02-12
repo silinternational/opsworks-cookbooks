@@ -98,4 +98,7 @@ if File.directory?("/var/lib/doorman-ui")
   link "/var/lib/doorman-ui/app/bower_components" do
     to "/var/lib/doorman-ui/bower_components/"
   end
+  link "/var/lib/doorman-ui/app/api" do
+    to "/var/lib/doorman-api/frontend/web/"
+  end
 end
