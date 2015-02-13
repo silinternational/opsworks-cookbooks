@@ -81,6 +81,10 @@ if File.directory?("/var/lib/doorman-ui")
   link "/usr/bin/node" do
     to "/usr/bin/nodejs"
   end
+  execute "Doorman UI: gem install compass" do
+    command "gem update --system && gem install compass"
+    cwd "/var/lib/doorman-ui"
+  end
   execute "Doorman UI: npm install" do
     command "npm install"
     user "root"
