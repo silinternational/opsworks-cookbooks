@@ -82,7 +82,7 @@ if File.directory?("/var/lib/doorman-ui")
     to "/usr/bin/nodejs"
   end
   execute "Doorman UI: gem install compass" do
-    command "gem update --system && gem install compass"
+    command "gem install compass"
     cwd "/var/lib/doorman-ui"
   end
   execute "Doorman UI: npm install" do
