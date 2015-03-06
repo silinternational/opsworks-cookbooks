@@ -20,7 +20,7 @@ DEPENDENCIES
     path: mod_php5_apache2
   mysql
     git: git://github.com/opscode-cookbooks/mysql.git
-    revision: 46dccac22d282a05ee6a401e10ae8f5f8114fd66
+    revision: 6af73cda09b1645cfc307df0e7edbbc80d7b501c
   opsworks_agent_monit
     path: opsworks_agent_monit
   opsworks_aws_flow_ruby
@@ -41,7 +41,7 @@ DEPENDENCIES
     path: packages
   perl
     git: git://github.com/opscode-cookbooks/perl.git
-    revision: b3134affb47db263ebd6075ad47e822a4c5fbf53
+    revision: 80f88f8caa603805952dccb39ed1aeb35c1bdfbc
   php
     path: php
   ruby
@@ -59,10 +59,10 @@ DEPENDENCIES
     path: ssh_users
   yum
     git: git://github.com/opscode-cookbooks/yum.git
-    revision: faea88c967f467ae3447afd2e418a23b8accf996
+    revision: 601f3287d959c25298539f16a902a2cda9ac586a
   yum-epel
     git: git://github.com/opscode-cookbooks/yum-epel.git
-    revision: f33f4b414f28f4352d09a739ac45b71614602fce
+    revision: ddf26e9db6eac486efcf2b16377eced27aabb376
 
 GRAPH
   addressbook (0.0.1)
@@ -103,12 +103,12 @@ GRAPH
     simplesamlphp (>= 0.0.0)
   gem_support (1.0.0)
   hosts_file (0.2.0)
-  iis (4.0.0)
+  iis (4.1.0)
     windows (>= 1.34.6)
   mod_php5_apache2 (1.0.0)
     apache2 (>= 0.0.0)
     deploy (>= 0.0.0)
-  mysql (6.0.13)
+  mysql (6.0.15)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
   nginx (2.7.4)
@@ -147,8 +147,7 @@ GRAPH
     xml (>= 0.0.0)
     yum-epel (>= 0.0.0)
   rbac (1.0.2)
-  resource-control (0.1.1)
-  rsyslog (1.14.0)
+  rsyslog (1.15.0)
   ruby (1.0.0)
     opsworks_bundler (>= 0.0.0)
     opsworks_commons (>= 0.0.0)
@@ -167,19 +166,19 @@ GRAPH
     simplesamlphp (>= 0.0.0)
   simplesamlphp (0.0.1)
     s3_file (>= 0.0.0)
-  smf (2.2.1)
+  smf (2.2.5)
     rbac (>= 1.0.1)
     resource-control (>= 0.0.0)
   ssh_users (1.0.0)
     opsworks_initial_setup (>= 0.0.0)
   unicorn (2.0.0)
-  windows (1.36.1)
+  windows (1.36.6)
     chef_handler (>= 0.0.0)
-  xml (1.2.9)
+  xml (1.2.13)
     build-essential (>= 0.0.0)
     chef-sugar (>= 0.0.0)
-  yum (3.5.2)
+  yum (3.5.3)
   yum-epel (0.6.0)
     yum (~> 3.0)
-  yum-mysql-community (0.1.12)
+  yum-mysql-community (0.1.13)
     yum (>= 3.0)

@@ -7,7 +7,7 @@ case node[:platform_family]
     apache_owner = "apache"
     apache_group = "apache"
   when 'debian'
-    packages = ["git", "apache2", "php5", "php5-mcrypt", "php5-mysql"]
+    packages = ["git", "apache2", "php5", "php5-cli", "php5-mcrypt", "php5-mysql"]
     apache_owner = "www-data"
     apache_group = "www-data"
   end
@@ -19,7 +19,7 @@ packages.each do |name|
 end
 
 # Configure apps
-deploy = node['deploy']['doorman']
+deploy = node['deploy']['doorman_api']
 
 case node[:platform_family]
     when 'debian'
@@ -29,3 +29,8 @@ case node[:platform_family]
         end
     end
 
+# Add cron job to process email queue
+cron "email_queue" do
+    minute '*/5'
+    command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/yii cron/send-emails"
+end
