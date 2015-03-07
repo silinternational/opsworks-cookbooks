@@ -29,6 +29,18 @@ case node[:platform_family]
         end
     end
 
+# Update folder permissions
+folders = ["/application/runtime","/application/frontend/assets","/application/frontend/runtime"]
+folders.each do |folder|
+  directory "#{api['deploy_to']}#{api['aws_extra_path']}#{folder}" do
+    owner apache_owner
+    group apache_group
+    group "apache"
+    mode "0775"
+    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}#{folder}") }
+  end
+end
+
 # Add cron job to process email queue
 cron "email_queue" do
     minute '*/5'
