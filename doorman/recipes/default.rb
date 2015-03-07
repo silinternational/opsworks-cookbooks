@@ -37,7 +37,7 @@ folders.each do |folder|
     group apache_group
     group "apache"
     mode "0775"
-    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}#{folder}") }
+    only_if { File.directory?("#{api['deploy_to']}#{api['aws_extra_path']}#{folder}") }
   end
 end
 
