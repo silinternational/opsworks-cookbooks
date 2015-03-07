@@ -30,7 +30,7 @@ case node[:platform_family]
     end
 
 # Update folder permissions
-folders = ["/application/runtime","/application/frontend/assets","/application/frontend/runtime"]
+folders = ["/runtime","/frontend/assets","/frontend/runtime"]
 folders.each do |folder|
   directory "#{api['deploy_to']}#{api['aws_extra_path']}#{folder}" do
     owner apache_owner
