@@ -3,7 +3,7 @@
 # Additional packages
 case node[:platform_family]
   when 'rhel'
-    packages = ["mysql-client", "mysql-server"]
+    packages = ["mysql-client", "mysql-server", "nodejs", "npm"]
     apache_owner = "apache"
     apache_group = "apache"
   when 'debian'
@@ -75,34 +75,3 @@ end
 execute "Build Codeception" do
   command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
 end 
-
-# Setup Doorman UI if mounted
-if File.directory?("/var/lib/doorman-ui")
-  link "/usr/bin/node" do
-    to "/usr/bin/nodejs"
-  end
-  execute "Doorman UI: gem install compass" do
-    command "gem install compass"
-    cwd "/var/lib/doorman-ui"
-  end
-  execute "Doorman UI: npm install" do
-    command "npm install"
-    user "root"
-    cwd "/var/lib/doorman-ui"
-  end
-  execute "Doorman UI: npm install -g bower grunt-cli" do
-    command "npm install -g bower grunt-cli"
-    user "root"
-    cwd "/var/lib/doorman-ui"
-  end
-  execute "Doorman UI: bower install" do
-    command "bower install --allow-root"
-    cwd "/var/lib/doorman-ui"
-  end
-  link "/var/lib/doorman-ui/app/bower_components" do
-    to "/var/lib/doorman-ui/bower_components/"
-  end
-  link "/var/lib/doorman-ui/app/api" do
-    to "/var/lib/doorman-api/frontend/web/"
-  end
-end
