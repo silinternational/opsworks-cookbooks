@@ -8,9 +8,9 @@ define :yii_migrate do
                 dbname = "db"
             end
             if params[:yii_ver] == 2
-                command "#{params[:path]}/yii migrate --interactive=0 --db=#{dbname}"
+                command "php #{params[:path]}/yii migrate --interactive=0 --db=#{dbname}"
             else
-			    command "#{params[:path]}/yiic migrate --interactive=0 --connectionID=#{dbname}"
+			    command "php #{params[:path]}/yiic migrate --interactive=0 --connectionID=#{dbname}"
             end
 		end
 	end

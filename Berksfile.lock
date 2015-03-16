@@ -20,7 +20,7 @@ DEPENDENCIES
     path: mod_php5_apache2
   mysql
     git: git://github.com/opscode-cookbooks/mysql.git
-    revision: 6af73cda09b1645cfc307df0e7edbbc80d7b501c
+    revision: ba31c3b383a5ba1f61793372763cef5b50458037
   opsworks_agent_monit
     path: opsworks_agent_monit
   opsworks_aws_flow_ruby
@@ -108,7 +108,7 @@ GRAPH
   mod_php5_apache2 (1.0.0)
     apache2 (>= 0.0.0)
     deploy (>= 0.0.0)
-  mysql (6.0.15)
+  mysql (6.0.17)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
   nginx (2.7.4)
@@ -147,13 +147,14 @@ GRAPH
     xml (>= 0.0.0)
     yum-epel (>= 0.0.0)
   rbac (1.0.2)
+  resource-control (0.1.1)
   rsyslog (1.15.0)
   ruby (1.0.0)
     opsworks_bundler (>= 0.0.0)
     opsworks_commons (>= 0.0.0)
     opsworks_initial_setup (>= 0.0.0)
     opsworks_rubygems (>= 0.0.0)
-  runit (1.5.16)
+  runit (1.5.18)
     build-essential (>= 0.0.0)
     yum (~> 3.0)
     yum-epel (>= 0.0.0)
@@ -180,5 +181,5 @@ GRAPH
   yum (3.5.3)
   yum-epel (0.6.0)
     yum (~> 3.0)
-  yum-mysql-community (0.1.13)
+  yum-mysql-community (0.1.14)
     yum (>= 3.0)
