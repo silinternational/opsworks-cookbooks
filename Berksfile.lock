@@ -171,6 +171,7 @@ GRAPH
     rbac (>= 1.0.1)
     resource-control (>= 0.0.0)
   ssh_users (1.0.0)
+    opsworks_commons (>= 0.0.0)
     opsworks_initial_setup (>= 0.0.0)
   unicorn (2.0.0)
   windows (1.36.6)
