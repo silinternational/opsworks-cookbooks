@@ -75,3 +75,40 @@ end
 execute "Build Codeception" do
   command "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/vendor/bin/codecept build"
 end 
+
+# Setup Doorman UI
+if node['deploy']['doorman_ui']
+  
+  ui = node['deploy']['doorman_ui']
+  
+  # Fix debian nodejs bug
+  link "/usr/bin/node" do
+    to "/usr/bin/nodejs"
+  end
+
+  execute "Doorman UI: gem install compass" do
+    command "gem install compass"
+    cwd "#{ui['deploy_to']}#{ui['aws_extra_path']}"
+  end
+  execute "Doorman UI: npm install" do
+    command "npm install"
+    user "root"
+    cwd "#{ui['deploy_to']}#{ui['aws_extra_path']}"
+  end
+  execute "Doorman UI: npm install -g bower grunt-cli" do
+    command "npm install -g bower grunt-cli"
+    user "root"
+    cwd "#{ui['deploy_to']}#{ui['aws_extra_path']}"
+  end
+  execute "Doorman UI: bower install" do
+    command "bower install --allow-root"
+    cwd "#{ui['deploy_to']}#{ui['aws_extra_path']}"
+  end
+  link "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/bower_components" do
+    to "#{ui['deploy_to']}#{ui['aws_extra_path']}/bower_components/"
+  end
+  link "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/api" do
+    to "#{api['deploy_to']}#{api['aws_extra_path']}/frontend/web/"
+  end
+
+end

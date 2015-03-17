@@ -111,7 +111,7 @@ GRAPH
   mysql (6.0.17)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
-  nginx (2.7.4)
+  nginx (2.7.5)
     apt (~> 2.2)
     bluepill (~> 2.3)
     build-essential (~> 2.0)
