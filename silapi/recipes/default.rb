@@ -22,17 +22,13 @@ end
 deploy = node['deploy']['silapi']
 
 # Update folder permissions
-directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/protected/runtime" do
+folders = ["/application/protected/runtime","/application/public/assets"]
+folders.each do |folder|
+  directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}#{folder}" do
     owner apache_owner
     group apache_group
     mode "0775"
-    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/protected") }
-end
-directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/public/assets" do
-    owner apache_owner
-    group apache_group
-    mode "0775"
-    only_if { File.directory?("#{deploy['deploy_to']}#{deploy['aws_extra_path']}/application/public") }
+  end
 end
 
 # Make sure yiic script is executable
