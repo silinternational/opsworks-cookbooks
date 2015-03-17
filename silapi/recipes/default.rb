@@ -22,7 +22,7 @@ end
 deploy = node['deploy']['silapi']
 
 # Update folder permissions
-folders = ["/application/protected/runtime","/application/public/assets"]
+folders = ["/protected/runtime","/public/assets"]
 folders.each do |folder|
   directory "#{deploy['deploy_to']}#{deploy['aws_extra_path']}#{folder}" do
     owner apache_owner
