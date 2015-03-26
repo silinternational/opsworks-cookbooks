@@ -51,7 +51,14 @@ if node['deploy']['doorman_ui']
   
     ui = node['deploy']['doorman_ui']
 
-    link "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/api" do
+    # Doorman UI app folder may change based on environment, so check for app folder first
+    if File.directory?("#{ui['deploy_to']}#{ui['aws_extra_path']}/app")
+        symlinkpath = "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/api"
+    else
+        symlinkpath = "#{ui['deploy_to']}#{ui['aws_extra_path']}/api"
+    end
+
+    link "#{symlinkpath}" do
       to "#{api['deploy_to']}#{api['aws_extra_path']}/frontend/web/"
     end
 
