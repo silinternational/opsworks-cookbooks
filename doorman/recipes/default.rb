@@ -45,3 +45,14 @@ cron "email_queue" do
     minute '*/5'
     command "#{api['deploy_to']}#{api['aws_extra_path']}/yii cron/send-emails"
 end
+
+# Setup Doorman UI
+if node['deploy']['doorman_ui']
+  
+    ui = node['deploy']['doorman_ui']
+
+    link "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/api" do
+      to "#{api['deploy_to']}#{api['aws_extra_path']}/frontend/web/"
+    end
+
+end

@@ -20,7 +20,7 @@ DEPENDENCIES
     path: mod_php5_apache2
   mysql
     git: git://github.com/opscode-cookbooks/mysql.git
-    revision: ba31c3b383a5ba1f61793372763cef5b50458037
+    revision: 76d463bb4081b6278f7f8388cdbe188473eda814
   opsworks_agent_monit
     path: opsworks_agent_monit
   opsworks_aws_flow_ruby
@@ -48,7 +48,7 @@ DEPENDENCIES
     path: ruby
   s3_file
     git: git://github.com/adamsb6/s3_file.git
-    revision: 0b81d08012e188340a98459ba9383423f23708f7
+    revision: fbad716ccbc95897b064cda4e09941f56b2b2468
   scm_helper
     path: scm_helper
   silapi
@@ -67,11 +67,11 @@ DEPENDENCIES
 GRAPH
   addressbook (0.0.1)
   apache2 (1.0.0)
-  apt (2.6.1)
+  apt (2.7.0)
   bluepill (2.3.1)
     rsyslog (>= 0.0.0)
-  build-essential (2.1.3)
-  chef-sugar (2.5.0)
+  build-essential (2.2.1)
+  chef-sugar (3.1.0)
   chef_handler (1.1.6)
   dependencies (1.0.0)
     gem_support (>= 0.0.0)
@@ -108,10 +108,10 @@ GRAPH
   mod_php5_apache2 (1.0.0)
     apache2 (>= 0.0.0)
     deploy (>= 0.0.0)
-  mysql (6.0.17)
+  mysql (6.0.19)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
-  nginx (2.7.5)
+  nginx (2.7.6)
     apt (~> 2.2)
     bluepill (~> 2.3)
     build-essential (~> 2.0)
@@ -147,7 +147,6 @@ GRAPH
     xml (>= 0.0.0)
     yum-epel (>= 0.0.0)
   rbac (1.0.2)
-  resource-control (0.1.1)
   rsyslog (1.15.0)
   ruby (1.0.0)
     opsworks_bundler (>= 0.0.0)
@@ -158,7 +157,7 @@ GRAPH
     build-essential (>= 0.0.0)
     yum (~> 3.0)
     yum-epel (>= 0.0.0)
-  s3_file (2.5.2)
+  s3_file (2.5.3)
   scm_helper (1.0.0)
     opsworks_commons (>= 0.0.0)
   silapi (0.0.1)
@@ -167,9 +166,8 @@ GRAPH
     simplesamlphp (>= 0.0.0)
   simplesamlphp (0.0.1)
     s3_file (>= 0.0.0)
-  smf (2.2.5)
+  smf (2.2.6)
     rbac (>= 1.0.1)
-    resource-control (>= 0.0.0)
   ssh_users (1.0.0)
     opsworks_commons (>= 0.0.0)
     opsworks_initial_setup (>= 0.0.0)
@@ -182,5 +180,5 @@ GRAPH
   yum (3.5.3)
   yum-epel (0.6.0)
     yum (~> 3.0)
-  yum-mysql-community (0.1.14)
+  yum-mysql-community (0.1.16)
     yum (>= 3.0)

@@ -108,10 +108,4 @@ if node['deploy']['doorman_ui']
     to "#{ui['deploy_to']}#{ui['aws_extra_path']}/bower_components/"
   end
   
-  if node['deploy']['doorman_api']
-    api = node['deploy']['doorman_api']
-    link "#{ui['deploy_to']}#{ui['aws_extra_path']}/app/api" do
-      to "#{api['deploy_to']}#{api['aws_extra_path']}/frontend/web/"
-    end
-  end
 end
