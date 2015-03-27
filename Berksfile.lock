@@ -20,7 +20,7 @@ DEPENDENCIES
     path: mod_php5_apache2
   mysql
     git: git://github.com/opscode-cookbooks/mysql.git
-    revision: 76d463bb4081b6278f7f8388cdbe188473eda814
+    revision: 4a061c43db1e2e043c71b95347fa053b07054c1f
   opsworks_agent_monit
     path: opsworks_agent_monit
   opsworks_aws_flow_ruby
@@ -70,7 +70,7 @@ GRAPH
   apt (2.7.0)
   bluepill (2.3.1)
     rsyslog (>= 0.0.0)
-  build-essential (2.2.1)
+  build-essential (2.2.2)
   chef-sugar (3.1.0)
   chef_handler (1.1.6)
   dependencies (1.0.0)
@@ -108,7 +108,7 @@ GRAPH
   mod_php5_apache2 (1.0.0)
     apache2 (>= 0.0.0)
     deploy (>= 0.0.0)
-  mysql (6.0.19)
+  mysql (6.0.20)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
   nginx (2.7.6)

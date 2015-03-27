@@ -40,10 +40,14 @@ folders.each do |folder|
   end
 end
 
-# Add cron job to process email queue
+# Add cron jobs
 cron "email_queue" do
     minute '*/5'
     command "#{api['deploy_to']}#{api['aws_extra_path']}/yii cron/send-emails"
+end
+cron "doorman_queue" do
+    minute '*/2'
+    command "#{api['deploy_to']}#{api['aws_extra_path']}/yii cron/doorman-queue"
 end
 
 # Setup Doorman UI
