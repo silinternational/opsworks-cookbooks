@@ -3,6 +3,8 @@ DEPENDENCIES
     path: addressbook
   apache2
     path: apache2
+  cornerstone
+    path: cornerstone
   dependencies
     path: dependencies
   deploy
@@ -73,6 +75,10 @@ GRAPH
   build-essential (2.2.2)
   chef-sugar (3.1.0)
   chef_handler (1.1.6)
+  cornerstone (0.0.1)
+    apache2 (>= 0.0.0)
+    php (>= 0.0.0)
+    simplesamlphp (>= 0.0.0)
   dependencies (1.0.0)
     gem_support (>= 0.0.0)
     opsworks_nodejs (>= 0.0.0)
@@ -146,7 +152,7 @@ GRAPH
     windows (>= 0.0.0)
     xml (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  rbac (1.0.2)
+  rbac (1.0.3)
   rsyslog (1.15.0)
   ruby (1.0.0)
     opsworks_bundler (>= 0.0.0)
