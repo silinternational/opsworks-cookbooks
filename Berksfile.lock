@@ -22,7 +22,7 @@ DEPENDENCIES
     path: mod_php5_apache2
   mysql
     git: git://github.com/opscode-cookbooks/mysql.git
-    revision: 4a061c43db1e2e043c71b95347fa053b07054c1f
+    revision: 5ac7e5c80f8f422272f8b936dec89465f5f20f75
   opsworks_agent_monit
     path: opsworks_agent_monit
   opsworks_aws_flow_ruby
@@ -61,7 +61,7 @@ DEPENDENCIES
     path: ssh_users
   yum
     git: git://github.com/opscode-cookbooks/yum.git
-    revision: 601f3287d959c25298539f16a902a2cda9ac586a
+    revision: 1d9e757f8769747256fc9cc5bdbcb8524ee3dc18
   yum-epel
     git: git://github.com/opscode-cookbooks/yum-epel.git
     revision: ddf26e9db6eac486efcf2b16377eced27aabb376
@@ -114,7 +114,7 @@ GRAPH
   mod_php5_apache2 (1.0.0)
     apache2 (>= 0.0.0)
     deploy (>= 0.0.0)
-  mysql (6.0.20)
+  mysql (6.0.21)
     smf (>= 0.0.0)
     yum-mysql-community (>= 0.0.0)
   nginx (2.7.6)
@@ -183,8 +183,8 @@ GRAPH
   xml (1.2.13)
     build-essential (>= 0.0.0)
     chef-sugar (>= 0.0.0)
-  yum (3.5.3)
+  yum (3.5.4)
   yum-epel (0.6.0)
     yum (~> 3.0)
-  yum-mysql-community (0.1.16)
+  yum-mysql-community (0.1.17)
     yum (>= 3.0)

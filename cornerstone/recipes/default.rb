@@ -40,7 +40,35 @@ folders.each do |folder|
 end
 
 # Add cron jobs
-cron "insite2cornerstone_queue" do
-    minute '*/5'
-    command "#{app['deploy_to']}#{app['aws_extra_path']}/yii cron/insite-to-cornerstone"
+# cron "insite2cornerstone_queue" do
+#     minute '*/5'
+#     command "#{app['deploy_to']}#{app['aws_extra_path']}/yii cron/insite-to-cornerstone"
+# end
+
+# Add cron jobs
+if app['cron']
+    app['cron'].each do |job|
+        # Figure out full patth for command
+        if job['use_app_path']
+            cmd = "#{app['deploy_to']}#{app['aws_extra_path']}/#{job['command']}"
+        else
+            cmd = "#{job['command']}"
+        end
+        # Setup default values for timing if not provided in configuration
+        dayVal     = job['day']     || '*'
+        hourVal    = job['hour']    || '*'
+        minuteVal  = job['minute']  || '*'
+        monthVal   = job['month']   || '*'
+        weekdayVal = job['weekday'] || '*'
+        # Create cron job entry
+        # Create the cron job
+        cron "#{job['name']}" do
+            command "#{cmd}"
+            day "#{dayVal}"
+            hour "#{hourVal}"
+            minute "#{minuteVal}"
+            month "#{monthVal}"
+            weekday "#{weekdayVal}"
+        end
+    end
 end
